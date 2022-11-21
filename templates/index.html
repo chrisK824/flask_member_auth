@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+    integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {% if not member.is_authenticated %}
+          <li class="nav-item my-2 my-lg-0 ">
+            <button class="btn my-2 my-sm-0" type="button" data-toggle="modal" data-target="#signinmodal">Sign In
+              <i class="fas fa-sign-in-alt"></i>
+            </button>
+          </li>
+          <li class="nav-item my-2 my-lg-0">
+            <button class="btn my-2 my-sm-0" type="button" data-toggle="modal" data-target="#signupmodal">Sign Up
+              <i class="fas fa-user-plus"></i>
+            </button>
+          </li>
+          {% else %}
+          <li class="nav-item my-2 my-lg-0 ">
+            <button class="btn my-2 my-sm-0" type="button">Welcome {{ member['username']}} !
+              <i class="fas fa-user"></i>
+            </button>
+          </li>
+          <li class="nav-item my-2 my-lg-0 ">
+            <form action="/logout" method="POST">
+              <button type="submit" class="btn my-2 my-sm-0">Sign Out
+                <i class="fas fa-sign-out-alt"></i>
+              </button>
+            </form>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <!-- login modal -->
+    <div class="modal fade" id="signinmodal" tabindex="-1" role="dialog" aria-labelledby="signinmodalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signinmodalLabel">Sign In</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/login" method="POST">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username *" value="" name="username" required />
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password *" value="" name="password"
+                  required />
+              </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#">Forgot Your Password?</a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="signupmodal" tabindex="-1" role="dialog" aria-labelledby="signupmodalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signupmodalLabel">Sign Up</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/signup" method="POST">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username *" value="" name="username" required />
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password *" value="" name="password"
+                  required />
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="First name *" value="" name="name" required />
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Last Name *" value="" name="lastname" required />
+              </div>
+              <div class="form-group">
+                <div class="form-check  form-check-inline">
+                  <input class="form-check-input" type="radio" id="inlineradiobox1" name="gender" value="male">
+                  <label class="form-check-label" for="inlineradiobox1">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="inlineradiobox2" name="gender" value="female">
+                  <label class="form-check-label" for="inlineradiobox2">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="inlineradiobox3" name="gender" value="other">
+                  <label class="form-check-label" for="inlineradiobox3">Other</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="number" class="form-control" placeholder="Age *" value="" name="age" required />
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nationality *" value="" name="nationality" />
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if member.is_authenticated  %}
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Age</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Nationality</th>
+        <th scope="col">Username</th>
+        <th scope="col">Password</th>
+        <th scope="col">Member Since</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td>{{ member['name']}}</td>
+        <td>{{ member['lastname']}}</td>
+        <td>{{ member['age']}}</td>
+        <td>{{ member['gender']}}</td>
+        <td>{{ member['nationality']}}</td>
+        <td>{{ member['username']}}</td>
+        <td>{{ member['password']}}</td>
+        <td>{{ member['member_since']}}</td>
+      </tr>
+    </tbody>
+  </table>
+  {% endif %}
+</body>
+
+</html>

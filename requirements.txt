@@ -1,0 +1,6 @@
+eventlet==0.33.2
+Flask==2.1.1
+Flask_Login==0.6.0
+flask_marshmallow==0.14.0
+Flask_SQLAlchemy==2.5.1
+marshmallow_sqlalchemy==0.28.0
