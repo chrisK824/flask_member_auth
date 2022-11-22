@@ -32,13 +32,11 @@ def load_user(username):
 def index():
     return render_template("index.html", member=current_user)
 
-
 @app.route('/members', methods=['GET'])
 @login_required
 def getUsers():
     members = Member.query.all()
     return jsonify(members_schema.dump(members))
-
 
 @app.route('/login', methods=['POST'])
 def login():
