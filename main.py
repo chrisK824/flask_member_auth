@@ -23,20 +23,24 @@ login_manager = LoginManager()
 login_manager.setup_app(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(username):
     return Member.query.filter_by(
-            username=username).first()
+        username=username).first()
+
 
 @app.route('/', methods=['GET'])
 def index():
     return render_template("index.html", member=current_user)
+
 
 @app.route('/members', methods=['GET'])
 @login_required
 def getUsers():
     members = Member.query.all()
     return jsonify(members_schema.dump(members))
+
 
 @app.route('/login', methods=['POST'])
 def login():
